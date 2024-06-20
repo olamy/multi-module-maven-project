@@ -5,7 +5,7 @@ pipeline {
       steps {
         withMaven(
           maven: 'maven-3.9.x'
-          mavenOpts:"-Djava.security.manager=com.cloudbees.cbci.fips_security_manager.FIPSSecurityManager -Dorg.bouncycastle.fips.approved_only=true -Xbootclasspath/a:/usr/local/lib/java_fips_ext/bc-fips-1.0.2.3.jar:/usr/local/lib/java_fips_ext/bctls-fips-1.0.12.2.jar:/usr/local/lib/java_fips_ext/bcpkix-fips-1.0.5.jar:/usr/local/lib/java_fips_ext/fips-security-manager-1.0.jar") {
+          mavenOpts:"-Xbootclasspath/a:/usr/share/jenkins/fips/bc-fips.jar:/usr/share/jenkins/fips/bctls-fips.jar:/usr/share/jenkins/fips/bcpkix-fips.jar:/usr/share/jenkins/fips/fips-security-manager.jar -Dorg.bouncycastle.fips.approved_only=true -Djava.security.manager=com.cloudbees.cbci.fips_security_manager.FIPSSecurityManager -Djavax.net.ssl.trustStoreType=PKCS12 -Djenkins.security.FIPS140.COMPLIANCE=true -Dcom.redhat.fips=false") {
           sh "mvn -V clean verify"
         } // withMaven will discover the generated Maven artifacts, JUnit Surefire & FailSafe reports and FindBugs reports
       }
